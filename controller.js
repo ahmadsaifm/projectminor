@@ -8,8 +8,8 @@ exports.index = function (req, res) {
 };
 
 //menampilkan semua data mahasiswa
-exports.tampilsemuamahasiswa = function (req, res) {
-    connection.query('SELECT * FROM mahasiswa', function (error, rows, fileds) {
+exports.tampilsemuausers = function (req, res) {
+    connection.query('SELECT * FROM users', function (error, rows, fileds) {
         if (error) {
             console.log(error);
         } else {
@@ -21,7 +21,7 @@ exports.tampilsemuamahasiswa = function (req, res) {
 //menampilkan semua data mahasiwa berdasarkan id
 exports.tampilberdasarkanid = function (req, res) {
     let id = req.params.id;
-    connection.query('SELECT * FROM mahasiswa WHERE id_mahasiswa = ?', [id],
+    connection.query('SELECT * FROM users WHERE id = ?', [id],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -32,13 +32,16 @@ exports.tampilberdasarkanid = function (req, res) {
 };
 
 //menambahkan data mahasiswa
-exports.tambahMahasiswa = function (req, res) {
+exports.tambahUsers = function (req, res) {
     var nim = req.body.nim;
-    var nama = req.body.nama;
-    var jurusan = req.body.jurusan;
+    var name = req.body.name;
+    var password = req.body.password;
+    var status_user = req.body.status_user;
+    var role = req.body.role;
+    var status = req.body.status;
 
-    connection.query('INSERT INTO mahasiswa (nim,nama,jurusan) VALUES(?,?,?)',
-        [nim, nama, jurusan],
+    connection.query('INSERT INTO users (nim,name,password,status_user,role,status) VALUES(?,?,?,?,?,?)',
+        [nim, name, password, status_user, role, status],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -50,13 +53,15 @@ exports.tambahMahasiswa = function (req, res) {
 
 
 //mengubah data berdasarkan id
-exports.ubahMahasiswa = function (req, res) {
-    var id = req.body.id_mahasiswa;
+exports.ubahUsers = function (req, res) {
     var nim = req.body.nim;
-    var nama = req.body.nama;
-    var jurusan = req.body.jurusan;
+    var name = req.body.name;
+    var password = req.body.password;
+    var status_user = req.body.status_user;
+    var role = req.body.role;
+    var status = req.body.status;
 
-    connection.query('UPDATE mahasiswa SET nim=?, nama=?, jurusan=? WHERE id_mahasiswa=?', [nim, nama, jurusan, id],
+    connection.query('UPDATE users SET nim=?, name=?, password=?, status_user=?, role=?, status=?, WHERE id=?', [nim, name, password, status_user, role, status, id],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -67,9 +72,9 @@ exports.ubahMahasiswa = function (req, res) {
 }
 
 //Menghapus data berdasarkan id
-exports.hapusMahasiswa = function (req, res) {
-    var id = req.body.id_mahasiswa;
-    connection.query('DELETE FROM mahasiswa WHERE id_mahasiswa=?',[id],
+exports.hapusUsers = function (req, res) {
+    var id = req.body.id;
+    connection.query('DELETE FROM users WHERE id=?',[id],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -79,18 +84,18 @@ exports.hapusMahasiswa = function (req, res) {
         });
 }
 
-//menampilkan matakuliah group
-exports.tampilgroupmatakuliah = function(req, res){
-    connection.query('SELECT mahasiswa.id_mahasiswa, mahasiswa.nim, mahasiswa.nama, mahasiswa.jurusan, matakuliah.matakuliah, matakuliah.sks from krs JOIN matakuliah JOIN mahasiswa WHERE krs.id_matakuliah = matakuliah.id_matakuliah AND krs.id_mahasiswa = mahasiswa.id_mahasiswa ORDER BY mahasiswa.id_mahasiswa',
-        function (error, rows, fields){
-            if(error){
-                console.log(error);
-            }else {
-                response.oknested(rows, res);
-            }
-        }
-    )
+// //menampilkan matakuliah group
+// exports.tampilgroupmatakuliah = function(req, res){
+//     connection.query('SELECT mahasiswa.id_mahasiswa, mahasiswa.nim, mahasiswa.nama, mahasiswa.jurusan, matakuliah.matakuliah, matakuliah.sks from krs JOIN matakuliah JOIN mahasiswa WHERE krs.id_matakuliah = matakuliah.id_matakuliah AND krs.id_mahasiswa = mahasiswa.id_mahasiswa ORDER BY mahasiswa.id_mahasiswa',
+//         function (error, rows, fields){
+//             if(error){
+//                 console.log(error);
+//             }else {
+//                 response.oknested(rows, res);
+//             }
+//         }
+//     )
 
-}
+// }
 
 
